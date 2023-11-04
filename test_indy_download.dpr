@@ -1,3 +1,4 @@
+{ Test TIdHttp. }
 program test_indy_download;
 
 uses
@@ -47,6 +48,7 @@ begin
         MyIOHandler.SSLOptions.SSLVersions := [sslvTLSv1_2, sslvTLSv1_1, sslvTLSv1];
         IdHttp.IOHandler := MyIOHandler;
 
+        // This is synchronous, we wait for download to be finished
         IdHttp.Get('https://castle-engine.io/', Contents);
 
         Writeln('Done');
@@ -60,10 +62,10 @@ begin
         FreeAndNil(IdHttp);
       end;
     finally FreeAndNil(Contents) end;
-
-    Readln;
   except
     on E: Exception do
       Writeln(E.ClassName, ': ', E.Message);
   end;
+
+  Readln; // keep terminal, spawned by Delphi IDE, visible until you press Enter
 end.
