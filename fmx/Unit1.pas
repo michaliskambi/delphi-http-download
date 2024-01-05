@@ -19,12 +19,14 @@ type
     ButtonUrl404: TButton;
     ButtonUrlCgeWebpage: TButton;
     ButtonUrlNeverssl: TButton;
+    Timer1: TTimer;
     procedure ButtonDownloadClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ButtonUrlCgeDownloadClick(Sender: TObject);
     procedure ButtonUrlCgeWebpageClick(Sender: TObject);
     procedure ButtonUrlNeversslClick(Sender: TObject);
     procedure ButtonUrl404Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     Done: Boolean;
     C: TNetHttpClient;
@@ -74,6 +76,24 @@ begin
   FreeAndNil(C);
   FreeAndNil(ResponseContent);
   Response := nil;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+const
+  ThrowawayBufferSize = 1000 * 1000;
+var
+  ThrowawayBuffer: array [1..ThrowawayBufferSize] of Byte;
+begin
+  // testing is there anything we should/can do to prevent downloads of larger files,
+  // like https://castle-engine.io/latest.zip, to not crash with timeout.
+
+  {
+  if (Response <> nil) and (not Response.AsyncResult.IsCompleted) then
+  begin
+    // ?? Nothing like Response.Process; ?
+    ResponseContent.Read(ThrowawayBuffer, ThrowawayBufferSize);
+  end;
+  }
 end;
 
 procedure TForm1.ButtonDownloadClick(Sender: TObject);
