@@ -4,6 +4,6 @@ __history
 *.exe
 *.res
 *.rsm
-/Win32/
-/Win64/
-/Linux64/
+Win32/
+Win64/
+Linux64/
